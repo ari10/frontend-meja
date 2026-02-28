@@ -1,12 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
+
+// pages
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Dashboard from "../views/Dashboard.vue";
+import OrderPage from "../views/OrderPage.vue"; // 🔥 WAJIB
 
 const routes = [
-  { path: "/", component: Login },
-  { path: "/register", component: Register },
-  { path: "/dashboard", component: Dashboard }
+  {
+    path: "/",
+    component: Login
+  },
+  {
+    path: "/register",
+    component: Register
+  },
+  {
+    path: "/dashboard",
+    component: Dashboard,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/order/:id",
+    component: OrderPage,
+    props: true,
+    meta: { requiresAuth: true }
+  }
 ];
 
 const router = createRouter({
@@ -14,15 +33,15 @@ const router = createRouter({
   routes
 });
 
-// 🔥 TARUH DI SINI (SETELAH router dibuat)
-router.beforeEach((to, from, next) => {
+// 🔥 MODERN GUARD (NO next())
+router.beforeEach((to) => {
   const token = localStorage.getItem("token");
 
-  if (to.path === '/dashboard' && !token) {
-    next('/');
-  } else {
-    next();
+  if (to.meta.requiresAuth && !token) {
+    return "/";
   }
+
+  return true;
 });
 
 export default router;
