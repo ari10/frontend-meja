@@ -5,6 +5,7 @@ import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Dashboard from "../views/Dashboard.vue";
 import OrderPage from "../views/OrderPage.vue"; // 🔥 WAJIB
+import FoodPage from '@/views/FoodPage.vue';
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     component: OrderPage,
     props: true,
     meta: { requiresAuth: true }
+  },
+  {
+  path: '/foods',
+  component: FoodPage,
+  meta: { requiresAuth: true }
   }
 ];
 

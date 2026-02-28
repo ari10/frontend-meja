@@ -26,6 +26,7 @@
             </div>
 
             <button
+            v-if="auth.user?.role === 'pelayan'"
               @click="addItem(food.id)"
               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
             >
@@ -69,6 +70,7 @@
 
           <!-- CLOSE ORDER -->
           <button
+             v-if="auth.user?.role === 'kasir'"
             @click="closeOrder"
             class="bg-green-600 hover:bg-green-700 text-white w-full py-2 mt-4 rounded-lg"
           >
@@ -89,6 +91,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "@/services/api";
+import { useAuthStore } from '@/stores/auth';
 
 const route = useRoute();
 const router = useRouter();
@@ -97,7 +100,7 @@ const orderId = route.params.id;
 
 const order = ref(null);
 const foods = ref([]);
-
+const auth = useAuthStore();
 const formatRupiah = (val) => {
   return new Intl.NumberFormat("id-ID").format(val);
 };
