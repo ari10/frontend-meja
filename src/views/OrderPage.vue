@@ -25,14 +25,16 @@
               </p>
             </div>
 
-            <button
-            v-if="auth.user?.role === 'pelayan'"
-              @click="addItem(food.id)"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+           <button
+            v-if="auth.user?.role === 'pelayan' && order.status === 'open'"
+            @click="addItem(food.id)"
+            class="bg-blue-500 text-white px-2 py-1 rounded"
             >
-              +
+            +
             </button>
+            
           </div>
+          
         </div>
 
         <div v-else>Loading menu...</div>
@@ -69,13 +71,13 @@
           </div>
 
           <!-- CLOSE ORDER -->
-          <button
-             v-if="auth.user?.role === 'kasir'"
-            @click="closeOrder"
-            class="bg-green-600 hover:bg-green-700 text-white w-full py-2 mt-4 rounded-lg"
-          >
-            Close Order
-          </button>
+        <button
+        v-if="auth.user?.role === 'kasir' && order.status === 'open'"
+        @click="closeOrder"
+        class="bg-red-500 text-white px-4 py-2 rounded mt-4"
+        >
+        Close Order
+        </button>
 
         </div>
 
