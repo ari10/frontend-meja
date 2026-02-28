@@ -1,19 +1,30 @@
 # 🍽️ Resto App - Frontend
 
-Frontend aplikasi manajemen restoran yang dibangun menggunakan Vue 3.
-Berfungsi sebagai client untuk mengakses API backend (Laravel).
+Frontend aplikasi manajemen restoran menggunakan Vue 3.
 
 ---
 
-## 🚀 Features (Current Progress)
+## 🚀 Features
 
-* Authentication UI
+### 🔐 Authentication
 
-  * Login
-  * Register (multi role: pelayan, kasir)
-* Token handling (localStorage)
-* Protected route (dashboard)
-* Basic dashboard page
+* Login
+* Register
+* Role-based (kasir & pelayan)
+
+### 🪑 Dashboard Meja
+
+* Menampilkan daftar meja
+* Status meja (available / occupied)
+* Klik meja untuk membuka order
+
+### 🍔 Order System
+
+* Menampilkan menu makanan
+* Tambah item ke pesanan
+* Menampilkan detail pesanan
+* Hitung total otomatis
+* Close order (selesaikan pesanan)
 
 ---
 
@@ -21,46 +32,30 @@ Berfungsi sebagai client untuk mengakses API backend (Laravel).
 
 * Vue 3 (Composition API)
 * Vue Router
-* Pinia (State Management)
-* Axios (HTTP Client)
-* Tailwind CSS (UI Styling)
+* Axios
+* Tailwind CSS
 
 ---
 
 ## ⚙️ Installation
 
-### 1. Clone Repository
-
 ```bash
 git clone https://github.com/ari10/frontend-meja.git
 cd frontend-repo
-```
-
----
-
-### 2. Install Dependency
-
-```bash
 npm install
 ```
 
 ---
 
-### 3. Run Project
+## ▶️ Run App
 
 ```bash
 npm run dev
 ```
 
-Aplikasi akan berjalan di:
-
-```bash
-http://localhost:5173
-```
-
 ---
 
-## 🔑 Configuration
+## 🔗 API Connection
 
 Pastikan backend berjalan di:
 
@@ -68,47 +63,16 @@ Pastikan backend berjalan di:
 http://127.0.0.1:8000
 ```
 
-Edit file:
+Dan konfigurasi di:
 
 ```bash
 src/services/api.js
 ```
 
-```js
-baseURL: "http://127.0.0.1:8000/api"
-```
-
----
-
-## 🔐 Authentication Flow
-
-* User login → token disimpan di localStorage
-* Token digunakan untuk request API
-* Route dashboard hanya bisa diakses jika sudah login
-* Logout akan menghapus token
-
----
-
-## 📦 Pages
-
-* `/` → Login
-* `/register` → Register
-* `/dashboard` → Dashboard (protected)
-
 ---
 
 ## 📌 Notes
 
-* Backend harus sudah berjalan sebelum frontend digunakan
-* Menggunakan token-based authentication (Laravel Sanctum)
-* Role user akan digunakan di tahap selanjutnya
-
----
-
-## 🚀 Next Development
-
-* Dashboard Meja (Table List)
-* Status Meja (Available / Occupied)
-* CRUD Makanan
-* Order Management
-* UI Improvement
+* Menggunakan token authentication (Bearer Token)
+* Data diambil dari backend Laravel API
+* UI dibuat sederhana namun fokus pada fungsionalitas
