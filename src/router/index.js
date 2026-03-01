@@ -6,6 +6,7 @@ import Register from "../views/auth/Register.vue";
 import Dashboard from "../views/Dashboard.vue";
 import OrderPage from "../views/OrderPage.vue"; // 🔥 WAJIB
 import FoodPage from '@/views/FoodPage.vue';
+import History from "../views/History.vue";
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
   path: '/foods',
   component: FoodPage,
   meta: { requiresAuth: true }
+  },
+  {
+  path: "/history",
+  component: History
   }
 ];
 

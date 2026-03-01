@@ -53,12 +53,17 @@ onUnmounted(() => {
 
       <div class="flex gap-2">
         <button
+          v-if="auth.user?.role === 'pelayan'"
           @click="$router.push('/foods')"
           class="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Manage Menu
         </button>
-
+        <router-link to="/history"
+         v-if="auth.user?.role === 'kasir'"
+          class="block px-4 py-2 hover:bg-gray-100 rounded">
+          Riwayat Transaksi
+        </router-link>
         <button
           @click="logout"
           class="bg-red-500 text-white px-4 py-2 rounded"
