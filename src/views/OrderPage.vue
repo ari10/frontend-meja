@@ -78,7 +78,13 @@
         >
         Close Order
         </button>
-
+        <button 
+        v-if="auth.user?.role === 'kasir'"
+          @click="printReceipt"
+          class="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Print Receipt
+        </button>
         </div>
 
         <div v-else>Loading order...</div>
@@ -135,7 +141,14 @@ const closeOrder = async () => {
   alert("Order selesai!");
   router.push("/dashboard");
 };
+const printReceipt = async () => {
+  const res = await api.get(`/orders/${route.params.id}/receipt`, {
+    responseType: 'blob'
+  });
 
+  const url = window.URL.createObjectURL(new Blob([res.data]));
+  window.open(url);
+};
 onMounted(() => {
   fetchOrder();
   fetchFoods();
