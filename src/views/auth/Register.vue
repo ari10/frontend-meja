@@ -57,7 +57,7 @@ const submit = async () => {
       role: role.value
     });
 
-    // 🔥 balik ke login setelah register
+    // balik ke login setelah register
     router.push('/');
 
   } catch (err) {

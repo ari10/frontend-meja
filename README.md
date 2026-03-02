@@ -1,30 +1,20 @@
-# 🍽️ Resto App - Frontend
+# 🖥️ POS Frontend (Vue 3)
 
-Frontend aplikasi manajemen restoran menggunakan Vue 3.
+## 📌 Overview
+
+Frontend POS berbasis Vue 3 + Tailwind untuk sistem restoran.
 
 ---
 
 ## 🚀 Features
 
-### 🔐 Authentication
-
-* Login
-* Register
-* Role-based (kasir & pelayan)
-
-### 🪑 Dashboard Meja
-
-* Menampilkan daftar meja
-* Status meja (available / occupied)
-* Klik meja untuk membuka order
-
-### 🍔 Order System
-
-* Menampilkan menu makanan
-* Tambah item ke pesanan
-* Menampilkan detail pesanan
-* Hitung total otomatis
-* Close order (selesaikan pesanan)
+* Login & Register
+* Dashboard Meja (Guest & Admin)
+* Order Page (Add Item)
+* Send to Kitchen
+* Close Order
+* History Transaksi
+* Print Receipt PDF
 
 ---
 
@@ -32,6 +22,7 @@ Frontend aplikasi manajemen restoran menggunakan Vue 3.
 
 * Vue 3 (Composition API)
 * Vue Router
+* Pinia
 * Axios
 * Tailwind CSS
 
@@ -41,15 +32,9 @@ Frontend aplikasi manajemen restoran menggunakan Vue 3.
 
 ```bash
 git clone https://github.com/ari10/frontend-meja.git
-cd frontend-repo
+cd pos-frontend
+
 npm install
-```
-
----
-
-## ▶️ Run App
-
-```bash
 npm run dev
 ```
 
@@ -57,22 +42,47 @@ npm run dev
 
 ## 🔗 API Connection
 
-Pastikan backend berjalan di:
+Edit:
 
-```bash
-http://127.0.0.1:8000
+```
+src/services/api.js
 ```
 
-Dan konfigurasi di:
-
-```bash
-src/services/api.js
+```js
+baseURL: "http://127.0.0.1:8000/api"
 ```
 
 ---
 
-## 📌 Notes
+## 🔑 Roles
 
-* Menggunakan token authentication (Bearer Token)
-* Data diambil dari backend Laravel API
-* UI dibuat sederhana namun fokus pada fungsionalitas
+### 👨‍🍳 Pelayan
+
+* Add item
+* Send to kitchen
+
+### 💰 Kasir
+
+* Close order
+* Print receipt
+* View history
+
+---
+
+## 📊 Flow App
+
+```
+Guest → Dashboard (lihat meja)
+Login kasir/pelayan → Dashboard
+→ Order → Send Kitchen
+→ Kasir → Close Order
+→ History → Print Receipt
+```
+
+---
+
+## ✅ Status
+
+✔️ Fully Functional UI
+✔️ Connected to Backend API
+✔️ Responsive & Clean UI

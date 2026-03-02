@@ -18,7 +18,7 @@ const fetchTables = async () => {
 };
 
 const openTable = async (tableId) => {
-  // 🔥 langsung buka order (backend handle open)
+  // langsung buka order (backend handle open)
   const res = await api.post(`/orders/open/${tableId}`);
   router.push(`/order/${res.data.id}`);
 };
@@ -94,10 +94,12 @@ onUnmounted(() => {
           :key="table.id"
           @click="openTable(table.id)"
           :class="[
-            'p-6 rounded text-center cursor-pointer transition',
-            table.status === 'available'
-              ? 'bg-green-500 text-white'
-              : 'bg-gray-400 text-white'
+            'p-6 rounded text-center cursor-pointer transition text-white',
+            {
+              'bg-green-500': table.status === 'available',
+              'bg-yellow-500': table.status === 'process',
+              'bg-red-500': table.status === 'occupied',
+            }
           ]"
         >
           <div class="text-lg font-bold">

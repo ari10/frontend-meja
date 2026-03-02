@@ -44,7 +44,7 @@ const submit = async () => {
       password: password.value
     });
 
-    // 🔥 redirect ke dashboard
+    // redirect ke dashboard
     router.push('/dashboard');
 
   } catch (err) {

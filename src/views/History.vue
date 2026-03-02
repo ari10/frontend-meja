@@ -9,10 +9,9 @@
       class="mb-4 p-2 border rounded w-64"
     />
 
-    <!-- TABLE -->
+    <!--  TABLE -->
     <div class="bg-white rounded-xl shadow overflow-hidden">
       <table class="w-full text-sm">
-        
         <thead class="bg-gray-100">
           <tr>
             <th class="p-3 text-left">ID</th>
@@ -31,14 +30,16 @@
           >
             <td class="p-3">#{{ order.id }}</td>
             <td class="p-3">{{ order.table_id }}</td>
-            <td class="p-3">Rp {{ order.total }}</td>
+            <td class="p-3">Rp {{ formatRupiah(order.total) }}</td>
 
             <!-- STATUS -->
             <td class="p-3">
               <span
-                :class="order.status === 'open'
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-green-600 font-semibold'"
+                :class="{
+                  'text-blue-600 font-semibold': order.status === 'open',
+                  'text-yellow-600 font-semibold': order.status === 'process',
+                  'text-green-600 font-semibold': order.status === 'closed'
+                }"
               >
                 {{ order.status }}
               </span>
@@ -46,33 +47,44 @@
 
             <!-- ACTION -->
             <td class="p-3 flex gap-2">
-              <button 
+
+              <!-- CLOSE (hanya process) -->
+              <button
+                v-if="order.status === 'process'"
+                @click="closeOrder(order.id)"
+                :disabled="loading"
+                class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 disabled:bg-gray-400"
+              >
+                Close
+              </button>
+
+              <!-- EDIT -->
+              <button
                 @click="editOrder(order)"
                 :disabled="order.status === 'closed'"
                 class="bg-yellow-400 px-3 py-1 rounded text-white 
-                        hover:bg-yellow-500 
-                        disabled:bg-gray-400 
-                        disabled:cursor-not-allowed 
-                        disabled:opacity-70"
-                >
+                       hover:bg-yellow-500 
+                       disabled:bg-gray-400 
+                       disabled:cursor-not-allowed"
+              >
                 Edit
-                </button>
+              </button>
 
+              <!-- DELETE -->
               <button
                 @click="deleteOrder(order.id)"
-                  :disabled="order.status === 'closed'"
-                class="bg-red-400 px-3 py-1 rounded text-white 
-                        hover:bg-yellow-500 
-                        disabled:bg-gray-400 
-                        disabled:cursor-not-allowed 
-                        disabled:opacity-70"
-                >
+                :disabled="order.status === 'closed'"
+                class="bg-red-500 px-3 py-1 rounded text-white 
+                       hover:bg-red-600 
+                       disabled:bg-gray-400 
+                       disabled:cursor-not-allowed"
+              >
                 Delete
               </button>
+
             </td>
           </tr>
         </tbody>
-
       </table>
     </div>
 
@@ -96,6 +108,7 @@
           class="w-full border p-2 mb-4 rounded"
         >
           <option value="open">Open</option>
+          <option value="process">Process</option>
           <option value="closed">Closed</option>
         </select>
 
@@ -127,22 +140,49 @@ import api from "@/services/api";
 // STATE
 const orders = ref([]);
 const search = ref("");
-
+const loading = ref(false);
 const showModal = ref(false);
 const selectedOrder = ref(null);
 
-// FETCH DATA
-const fetchHistory = async () => {
-  const res = await api.get("/orders/history");
-  orders.value = res.data;
+// FORMAT
+const formatRupiah = (val) => {
+  return new Intl.NumberFormat("id-ID").format(val);
 };
 
-// FILTER SEARCH
+// FETCH DATA (INI YANG DIPAKAI)
+const fetchOrders = async () => {
+  try {
+    const res = await api.get("/history");
+    orders.value = res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// 🔍 FILTER
 const filteredOrders = computed(() => {
   return orders.value.filter(o =>
     o.id.toString().includes(search.value)
   );
 });
+
+// CLOSE ORDER
+const closeOrder = async (id) => {
+  try {
+    loading.value = true;
+
+    await api.post(`/orders/${id}/close`);
+
+    alert("Order ditutup!");
+    fetchOrders(); // ✅ FIX
+
+  } catch (err) {
+    console.error(err);
+    alert("Gagal close order");
+  } finally {
+    loading.value = false;
+  }
+};
 
 // EDIT
 const editOrder = (order) => {
@@ -158,16 +198,17 @@ const updateOrder = async () => {
   });
 
   showModal.value = false;
-  fetchHistory();
+  fetchOrders();
 };
 
 // DELETE
 const deleteOrder = async (id) => {
   if (confirm("Yakin hapus order ini?")) {
     await api.delete(`/orders/${id}`);
-    fetchHistory();
+    fetchOrders();
   }
 };
 
-onMounted(fetchHistory);
+// INIT
+onMounted(fetchOrders);
 </script>
