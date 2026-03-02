@@ -10,7 +10,13 @@ import History from "../views/History.vue";
 
 const routes = [
   {
-    path: "/",
+    path: '/',
+    name: 'GuestDashboard',
+    component: () => import('@/views/GuestDashboard.vue')
+  },
+
+  {
+    path: "/login",
     component: Login
   },
   {
@@ -29,13 +35,14 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-  path: '/foods',
-  component: FoodPage,
-  meta: { requiresAuth: true }
+    path: "/foods",
+    component: FoodPage,
+    meta: { requiresAuth: true }
   },
   {
-  path: "/history",
-  component: History
+    path: "/history",
+    component: History,
+    meta: { requiresAuth: true }
   }
 ];
 

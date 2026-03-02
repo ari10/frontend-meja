@@ -31,7 +31,7 @@ const logout = () => {
 onMounted(() => {
   fetchTables();
 
-  // 🔥 AUTO REFRESH tiap 3 detik
+  // AUTO REFRESH tiap 3 detik
   interval = setInterval(() => {
     fetchTables();
   }, 3000);
@@ -48,7 +48,7 @@ onUnmounted(() => {
     <!-- HEADER -->
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-xl font-bold">
-        Dashboard / Table List
+        Dashboard / Meja Tersedia
       </h1>
 
       <div class="flex gap-2">
@@ -77,11 +77,11 @@ onUnmounted(() => {
     <div class="flex gap-4 mb-4">
       <span class="flex items-center gap-2">
         <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-        Available
+        Tersedia
       </span>
       <span class="flex items-center gap-2">
         <span class="w-3 h-3 bg-gray-400 rounded-full"></span>
-        Occupied
+        Terisi
       </span>
     </div>
 
@@ -101,7 +101,7 @@ onUnmounted(() => {
           ]"
         >
           <div class="text-lg font-bold">
-            {{ table.number }}
+            Meja {{ table.number }}
           </div>
           <div class="text-sm">
             {{ table.status }}
